@@ -1,0 +1,37 @@
+.page-item .page-link {
+    background-color: black;
+    color: white;
+    border-color: black;
+}
+
+.page-link:hover {
+    background-color: white;
+    color: black;
+}
+
+.input-responsive {
+    width: 80%;
+  }
+
+@media (max-width: 800px) {
+.input-responsive {
+    width: 80%;
+}
+}
+
+.table-responsive {
+    overflow-x: auto;
+  }
+
+@media (max-width: 800px) {
+.table-responsive {
+    overflow-x: auto;
+}
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+

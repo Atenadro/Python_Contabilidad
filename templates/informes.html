@@ -1,14 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <title>Contabilidad Personal</title>
-</head>
-<body>
-    <h1 class="container text-center">Contabilidad Personal</h1>
-    
-</body>
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+      <title>Contabilidad Personal</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-light bg-light">
+      <div class="container row">
+          <div class="col-10">
+              <a class="navbar-brand" href="/">
+                  <img src="/static/img/logo.png" width="340" alt="logo" style="margin-top: -60px; margin-bottom: -50px; margin-left: 30px;">
+              </a>
+          </div>
+          <div class="col-2">
+              <h1 style="text-align: right; padding-left: 10px;">Informes</h1>
+          </div>
+      </div>
+      <div class="row" style="width: 100%;">
+          <div class="button-container">
+              <button class="btn btn-dark m-1 p-3" onclick="location.href='/'">Inicio</button>
+              <button class="btn btn-dark m-1 p-3" onclick="location.href='/transacciones'">Transacciones</button>
+              <button class="btn btn-dark m-1 p-3" onclick="location.href='/cuentas'">Cuentas</button>
+              <button class="btn btn-dark m-1 p-3" onclick="location.href='/informes'">Informes</button>
+              <button class="btn btn-dark m-1 p-3" onclick="location.href='/config'">Configuración</button>
+          </div>
+      </div>
+    </nav>
+
+    <div class="container rounded border border-dark p-4">
+      <div class="row">
+        <div class="col">
+          <div class="row container table-responsive text-center">
+            <h4>Ingresos Todo Licencias </h4>
+            <table class="table table-hover mx-auto text-center">
+              <tr class="table-dark">
+                <th scope="row">Ingresos</th>
+                <th>Hoy</th>
+                <th>Ultimos 7 Días</th>
+                <th>Ultimos 30 Días</th>
+              </tr>
+              <tr>
+                <th class="table-dark">Ingresos Ventas</th>
+                <td>{{ diarios_itlpty }}</td>
+                <td>{{ semanal_itlpty }}</td>
+                <td>{{ mensual_itlpty }}</td>
+              </tr>
+              <tr>
+                <th class="table-dark">Otros Ingresos</th>
+                <td>{{ diarios_iotlpty }}</td>
+                <td>{{ semanal_iotlpty }}</td>
+                <td>{{ mensual_iotlpty }}</td>
+              </tr>
+              <tr>
+                <th class="table-dark">Totales</th>
+                <td>{{ ingresos_diarios_total }}</td>
+                <td>{{ ingresos_semanal_total }}</td>
+                <td>{{ ingresos_mensual_total }}</td>
+              </tr>
+            </table>
+
+            <h4>Ingresos Cambia Link </h4>
+            <table class="table table-hover mx-auto text-center">
+              <tr class="table-dark">
+                <th scope="row">Ingresos</th>
+                <th>Hoy</th>
+                <th>Ultimos 7 Días</th>
+                <th>Ultimos 30 Días</th>
+              </tr>
+              <tr>
+                <th class="table-dark">Ingresos Cambios</th>
+                <td>{{ diarios_icl }}</td>
+                <td>{{ semanal_icl }}</td>
+                <td>{{ mensual_icl }}</td>
+              </tr>
+            </table>
+
+            <h4>Ingresos Otros </h4>
+            <table class="table table-hover mx-auto text-center">
+              <tr class="table-dark">
+                <th scope="row"></th>
+                <th>Hoy</th>
+                <th>Ultimos 7 Días</th>
+                <th>Ultimos 30 Días</th>
+              </tr>
+              <tr>
+                <th class="table-dark">Ingresos</th>
+                <td>{{ diarios_iocl }}</td>
+                <td>{{ semanal_iocl }}</td>
+                <td>{{ mensual_iocl }}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+
+
+        <div class="col">
+          <div class="text-center">
+            <h4>Gastos</h4>
+            <table class="table table-hover mx-auto text-center">
+              <tr class="table-dark">
+                <th scope="row">Egresos</th>
+                <th>Hoy</th>
+                <th>Ultimos 7 Días</th>
+                <th>Ultimos 30 Días</th>
+              </tr>
+              <tr>
+                <th class="table-dark">Gastos Familiares</th>
+                <td>{{ diarios_familiares }}</td>
+                <td>{{ semanal_familiares }}</td>
+                <td>{{ mensual_familiares }}</td>
+              </tr>
+              <tr>
+                <th class="table-dark">Gastos Todo Licencias</th>
+                <td>{{ diarios_tlpty }}</td>
+                <td>{{ semanal_tlpty }}</td>
+                <td>{{ mensual_tlpty }}</td>
+              </tr>
+              <tr>
+                <th class="table-dark">Costos Todo Licencias</th>
+                <td>{{ diarios_tlptyc }}</td>
+                <td>{{ semanal_tlptyc }}</td>
+                <td>{{ mensual_tlptyc }}</td>
+              </tr>
+              <tr>
+                <th class="table-dark">Gastos Cambia Link</th>
+                <td>{{ diarios_cl }}</td>
+                <td>{{ semanal_cl }}</td>
+                <td>{{ mensual_cl }}</td>
+              </tr>
+              <tr>
+                <th class="table-dark">Costos Cambia Link</th>
+                <td>{{ diarios_clc }}</td>
+                <td>{{ semanal_clc }}</td>
+                <td>{{ mensual_clc }}</td>
+              </tr>
+              <tr>
+                <th class="table-dark">Totales</th>
+                <td>{{ diarios_total }}</td>
+                <td>{{ semanal_total }}</td>
+                <td>{{ mensual_total }}</td>
+              </tr>
+            </table>
+          </div>
+        </div>         
+      </div>        
+    </div>
+  </body>
 </html>  

@@ -5,112 +5,85 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <title>Contabilidad Personal</title>
 </head>
 <body>
-    <h1 class="container text-center">Contabilidad Personal</h1>
-    <nav>
-        <ul>
-          <li><a href="/">Inicio</a></li>
-          <li><a href="/transacciones">Transacciones</a></li>
-          <li><a href="/cuentas">Consultas de Cuentas</a></li>
-          <li><a href="#">Informes</a></li>
-          <li><a href="#">Configuración</a></li>
-        </ul>
-      </nav>
-    
-    <h2 class="container text-center">Usuarios</h2>
-    <table class="table table-hover mx-auto" style="width: 600px">
-        <tr class="table-primary">
-          <th scope="col">ID</th>
-          <th scope="col">Nombre</th>
-          <th scope="col">Apellido</th>
-          <th scope="col">E-Mail</th>
-          <th scope="col">Contraseña</th>
-        </tr>
-        {% for row in data %}
-        <tr>
-          <td>{{ row[0] }}</td>
-          <td>{{ row[1] }}</td>
-          <td>{{ row[2] }}</td>
-          <td>{{ row[3] }}</td>
-          <td>{{ row[4] }}</td>
-        </tr>
-        {% endfor %}
-      </table>
-    
-    <nav aria-label="Page navigation" class="mx-auto" style="width: 600px">
-        <ul class="pagination">
-        {% if page > 1 %}
-        <li class="page-item">
-            <a class="page-link" href="?page={{ page - 1 }}" aria-label="Anterior">
-                <span aria-hidden="true">&laquo;</span>
-                <span class="sr-only">Anterior</span>
-            </a>
-        </li>
-        {% endif %}
-        {% for i in range(1, num_pages+1) %}
-        <li class="page-item{% if page == i %} active{% endif %}">
-            <a class="page-link" href="?page={{ i }}">{{ i }}
-            </a>
-        </li>
-        {% endfor %}
-        {% if page < num_pages %}
-        <li class="page-item">
-            <a class="page-link" href="?page={{ page + 1 }}" aria-label="Siguiente">
-                <span aria-hidden="true">&raquo;</span>
-                <span class="sr-only">Siguiente</span>
-            </a>
-          </li>
-          {% endif %}
-        </ul>
-    </nav>
-
-    <br>
-
-    <div class="container text-center row">
-        <div class="col">
-            <form action="/ingresar_datos" method="POST">
-                ID: 
-                <input type="number" name="id" required>
-                <br>
-                Nombre: 
-                <input type="text" name="nombre" required>
-                <br>
-                Apellido: 
-                <input type="text" name="apellido" required>
-                <br>
-                E-Mail: 
-                <input type="text" name="email">
-                <br>
-                Contraseña: 
-                <input type="text" name="contrasena" required>
-                <br>
-                <input type="submit" value="Agregar">
-            </form> 
-        </div>    
-        <div class="col">
-            <form action="/editar_datos" method="POST">
-                <label for="id">ID a editar:</label>
-                <input type="number" name="id" required>
-                <br>
-                <label for="nombre">Nombre:</label>
-                <input type="text" name="nombre" required>
-                <br>
-                <label for="edad">Edad:</label>
-                <input type="number" name="edad" required>
-                <br>
-                <input type="submit" value="Editar">
-            </form>
+    <nav class="navbar navbar-light bg-light">
+        <div class="container row">
+            <div class="col-10">
+                <a class="navbar-brand" href="/">
+                    <img src="/static/img/logo.png" width="340" alt="logo" style="margin-top: -60px; margin-bottom: -50px; margin-left: 30px;">
+                </a>
+            </div>
+            <div class="col-2">
+                <h1 style="text-align: right; padding-left: 10px;">Contabilidad</h1>
+            </div>
         </div>
-        <div class="col">
-            <form action="/eliminar" method="POST">
-                ID a Eliminar: 
-                <input type="number" name="id" required>
+        <div class="row" style="width: 100%;">
+            <div class="button-container">
+                <button class="btn btn-dark m-1 p-3" onclick="location.href='/'">Inicio</button>
+                <button class="btn btn-dark m-1 p-3" onclick="location.href='/transacciones'">Transacciones</button>
+                <button class="btn btn-dark m-1 p-3" onclick="location.href='/cuentas'">Cuentas</button>
+                <button class="btn btn-dark m-1 p-3" onclick="location.href='/informes'">Informes</button>
+                <button class="btn btn-dark m-1 p-3" onclick="location.href='/config'">Configuración</button>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col"> 
+                <h3>Estado Financiero</h3>
+                <h4>Dashboard</h4>
+            </div>
+
+            <div class="col"> 
+                <p>$500.00</p>
+                <p>Total Disponible</p>
+                <p>Ingresos</p>
+                <p>Egresos</p>
+            </div>
+
+        </div>
+
+        <div class="row"> 
+            <div class="col text-center m-2">
+                <button class="btn btn-dark m-1" onclick="location.href='/transacciones'">Ingresar Transaccion</button>
                 <br>
-                <input type="submit" value="Eliminar">
-            </form>
-        </div>    
+                <button class="btn btn-dark m-1" onclick="location.href='/cuentas'">Estado de Cuentas</button>
+            </div>
+            
+        </div>
+        
+        <div class=""> 
+            <h3>Transacciones</h3>
+            <div>
+                <table class="table table-hover">
+                    <tr class="table-dark">
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Cuenta</th>
+                        <th scope="col">Categoria</th>
+
+                        <th scope="col">Monto</th>
+                    </tr>
+                    {% for row in data %}
+                    <tr>
+                        <td>{{ row[2] }}</td>
+                        <td>{{ row[3] }}</td>
+                        <td>{{ row[7] }}</td>
+
+                        <td>{{ row[5] }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+
+            </div>
+
+        </div>
+        <div class=""> 
+            <h3>Ultimos Gastos</h3>
+        </div>
     </div>
 
 </body>

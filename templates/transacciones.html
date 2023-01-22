@@ -5,113 +5,234 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <title>Contabilidad Personal</title>
 </head>
 <body>
-    <h1 class="container text-center">Contabilidad Personal</h1>
-
-    <nav>
-        <ul>
-          <li><a href="/">Inicio</a></li>
-          <li><a href="/transacciones">Transacciones</a></li>
-          <li><a href="/cuentas">Consultas de Cuentas</a></li>
-          <li><a href="#">Informes</a></li>
-          <li><a href="#">Configuración</a></li>
-        </ul>
+    <nav class="navbar navbar-light bg-light">
+        <div class="container row">
+            <div class="col-10">
+                <a class="navbar-brand" href="/">
+                    <img src="/static/img/logo.png" width="340" alt="logo" style="margin-top: -60px; margin-bottom: -50px; margin-left: 30px;">
+                </a>
+            </div>
+            <div class="col-2">
+                <h1 style="text-align: right; padding-left: 10px;">Transacciones</h1>
+            </div>
+        </div>
+        <div class="row" style="width: 100%;">
+            <div class="button-container">
+                <button class="btn btn-dark m-1 p-3" onclick="location.href='/'">Inicio</button>
+                <button class="btn btn-dark m-1 p-3" onclick="location.href='/transacciones'">Transacciones</button>
+                <button class="btn btn-dark m-1 p-3" onclick="location.href='/cuentas'">Cuentas</button>
+                <button class="btn btn-dark m-1 p-3" onclick="location.href='/informes'">Informes</button>
+                <button class="btn btn-dark m-1 p-3" onclick="location.href='/config'">Configuración</button>
+            </div>
+        </div>
     </nav>
     
-    <div class="container text-center row">
-        <div class="col">
-            <h2 class="container text-center">Transacciones</h2>
-            <table class="table table-hover mx-auto" style="width: 800px">
-                <tr class="table-primary">
-                    <th scope="col">ID</th>
-                    <th scope="col">ID-Usuario</th>
-                    <th scope="col">Fecha</th>
-                    <th scope="col">Cuenta</th>
-                    <th scope="col">Monto</th>
-                    <th scope="col">Categoria</th>
-                    <th scope="col">Descripcion</th>
-                </tr>
-                {% for row in data %}
-                <tr>
-                    <td>{{ row[0] }}</td>
-                    <td>{{ row[1] }}</td>
-                    <td>{{ row[2] }}</td>
-                    <td>{{ row[4] }}</td>
-                    <td>{{ row[5] }}</td>
-                    <td>{{ row[6] }}</td>
-                    <td>{{ row[7] }}</td>
-                </tr>
-                {% endfor %}
-            </table>
-            <nav aria-label="Page navigation" class="mx-auto" style="width: 600px">
-                <ul class="pagination">
-                {% if page > 1 %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page - 1 }}" aria-label="Anterior">
-                        <span aria-hidden="true">&laquo;</span>
-                        <span class="sr-only">Anterior</span>
-                    </a>
-                </li>
-                {% endif %}
-                {% for i in range(1, num_pages+1) %}
-                <li class="page-item{% if page == i %} active{% endif %}">
-                    <a class="page-link" href="?page={{ i }}">{{ i }}
-                    </a>
-                </li>
-                {% endfor %}
-                {% if page < num_pages %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page + 1 }}" aria-label="Siguiente">
-                        <span aria-hidden="true">&raquo;</span>
-                        <span class="sr-only">Siguiente</span>
-                    </a>
-                </li>
-                {% endif %}
-                </ul>
-            </nav>
-        </div>
-        <div class="col">
-            <form action="/ingresar_transaccion" method="POST">
-                <label for="descripcion">Nombre Usuario:</label><br>
-                <input type="text" id="usuario_id" name="usuario_id" required></input>
-                <br>
-                <label for="fecha">Fecha:</label>
-                <br>
-                <input type="date" id="fecha" name="fecha">
-                <br>
-                <label for="tipo">Tipo de transacción:</label>
-                <br>
-                <select id="tipo" name="tipo">
-                <option value="ingreso">Ingreso</option>
-                <option value="egreso">Egreso</option>
-                </select>
-                <br>
+    <div class="container rounded border border-dark p-4">
+        <div class="row">
+            <div class="col-8 rounded border border-dark p-2">
+                <h4 class="text-center">Agregar Transacción</h4>
+                    <form action="/ingresar_transaccion" method="POST" class="row p-2">
+                        <div class="col">
+                            <input type="hidden" id="usuario_id" name="usuario_id" value="Juan" required></input>
 
-                <label for="cuenta">ID Cuenta:</label>
-                <br>
-                <input type="number" id="cuenta" name="cuenta">
+                            <label for="fecha">Fecha:</label><br>
+                            <input type="date" id="fecha" name="fecha" value="{{ today }}" class="input-responsive rounded border border-dark">
+                            <br>
 
-                <br>
-                <label for="monto">Monto:</label>
-                <br>
-                <input type="number" id="monto" name="monto">
-                <br>
-                <label for="categoria">Categoría:</label><br>
-                <select id="categoria" name="categoria">
-                    <option value="Ingresos TLPTY">TLPTY Ingresos</option>
-                    <option value="Otros Ingresos TLPTY">TLPTY Ingresos Otros</option>
-                    <option value="Gastos TLPTY">Todo Licencias Gastos</option>
-                    <option value="Costos TLPTY">Todo Licencias Costos</option>
-                </select>
-                <br>
-                <label for="descripcion">Descripción:</label><br>
-                <textarea id="descripcion" name="descripcion"></textarea>
-                <br>
-                <input type="submit" value="Ingresar Transacción">
-            </form>   
+                            <label for="categoria">Categoria:</label><br>
+                            <select id="categoria" name="categoria" class="input-responsive rounded border border-dark">
+                                {% for row in opciones_categoria %}
+                                <option value="{{ row[1] }}"> {{ row[1] }} {{ row[2] }} </option>
+                                {% endfor %}
+                            </select>
+                            <br>
+
+                            <label for="proveedor">Proveedor:</label><br>
+                            <select id="proveedor" name="proveedor" class="input-responsive rounded border border-dark">
+                                {% for row in opciones_proveedor %}
+                                <option value="{{ row[1] }}"> {{ row[1] }} </option>
+                                {% endfor %}
+                            </select>                         
+                        </div>
+
+                        <div class="col">
+                            <label for="cuenta">Cuenta:</label><br>
+                            <select id="cuenta" name="cuenta" class="input-responsive rounded border border-dark">
+                                {% for row in opciones_cuenta %}
+                                <option value="{{ row[0] }}"> {{ row[2] }} </option>
+                                {% endfor %}
+                            </select>
+                            <br>
+
+                            <label for="monto">Monto:</label><br>
+                            <input type="number" id="monto" name="monto" class="input-responsive rounded border border-dark" required>
+                            <br>
+
+                            <label for="descripcion">Descripción:</label><br>
+                            <input type="text" id="descripcion" name="descripcion" class="input-responsive rounded border border-dark">
+
+                        </div>
+
+                        <div class="text-center p-2">
+                            <input type="submit" value="Ingresar" class="btn btn-dark">
+                        </div>
+                    </form>   
+            </div>
+            
+            <div class="col-4 rounded border border-dark p-2">
+            <h4 class="text-center">Conciliar</h4>
+                <div class="p-2 text-center">
+                    <form action="/update_status" method="POST">
+                        <label for="id">ID de Transaccion:</label><br>
+                        <input type="number" name="id" value="" class="input-responsive rounded border border-dark">
+                        <br>
+                        <select id="checking" name="status" class="m-2 input-responsive rounded border border-dark">
+                            <option value="Aprobado">Aprobado</option>
+                            <option value="Pendiente">Pendiente</option>
+                        </select>
+                        <br>
+                        <input type="submit" value="Guardar" class="btn btn-dark">
+                    </form>
+                </div>
+            </div>
         </div>
+
+        <div class="row container">
+            <div class="col rounded border border-dark text-center">
+                <div class="row">
+                    <div class="col-3">
+                        <form action="/buscar_fecha" method="GET">
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <label for="buscar">Fechas:</label><br>
+                                    <label for="buscar_inicial"></label>
+                                    <input type="date" id="buscar_inicial" name="buscar_inicial" min="2020-01-01" max="{{ today }}" value="{{ today_ago }}" class="input-responsive rounded border border-dark">
+                                </div>
+        
+                                <div class= "form-group col">
+                                    <label for="buscar_final"></label>
+                                    <input type="date" id="buscar_final" name="buscar_final" min="2020-01-01" max="{{ today }}" value="{{ today }}" class="input-responsive rounded border border-dark">
+                                </div>
+                            </div>
+                            <input type="submit" value="Buscar" class="p-1 m-1 btn btn-dark">
+                        </form>
+                    </div>
+        
+                    <div class="col-3">
+                        <form action="/buscar_cuenta" method="POST"  class="form-inline">
+                            <label for="buscar">Cuentas:</label><br>
+                            <select id="buscar" name="buscar" class="input-responsive rounded border border-dark">
+                                {% for row in opciones_cuenta %}
+                                <option value="{{ row[2] }}"> {{ row[2] }} </option>
+                                {% endfor %}
+                            </select>
+                            <br>
+                            <input type="submit" value="Buscar" class="p-1 m-1 btn btn-dark">
+                        </form>
+                    </div>
+
+                    <div class="col-3">
+                        <form action="/buscar_categoria" method="POST"  class="form-inline">
+                            <label for="buscar">Categorias:</label><br>
+                            <select id="buscar" name="buscar" class="input-responsive rounded border border-dark">
+                                {% for row in opciones_categoria %}
+                                <option value="{{ row[1] }}"> {{ row[1] }} {{ row[2] }}</option>
+                                {% endfor %}
+                            </select>
+                            <br>
+                            <input type="submit" value="Buscar" class="p-1 m-1 btn btn-dark">
+                        </form>
+                    </div>
+        
+                    <div class="col-3">
+                        <form action="/buscar_estado" method="POST"  class="form-inline">
+                            <label for="buscar_estado">Estado:</label><br>
+                            <select id="buscar_estado" name="buscar_estado" class="input-responsive rounded border border-dark">
+                                <option value="Aprobado"> Aprobado </option>
+                                <option value="Pendiente"> Pendiente </option>
+                            </select>
+                            <br>
+                            <input type="submit" value="Buscar" class="p-1 m-1 btn btn-dark">
+                        </form>
+                    </div>
+                </div>
+                <div class="row container table-responsive">       
+                    <table class="table table-hover mx-auto text-center">
+                        <tr class="table-dark">
+                            <th scope="col">ID</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Cuenta</th>
+                            <th scope="col">Monto</th>
+                            <th scope="col">Proveedor</th>
+                            <th scope="col">Categoria</th>
+                            <th scope="col">Descripcion</th>
+                            <th scope="col">Conciliacion</th>
+                        </tr>
+                        {% for row in data %}
+                        <tr>
+                            <td>{{ row[0] }}</td>
+                            <td>{{ row[2] }}</td>
+                            <td>{{ row[3] }}</td>
+                            <td>{{ row[5] }}</td>
+                            <td>{{ row[6] }}</td>
+                            <td>{{ row[7] }}</td>
+                            <td>{{ row[8] }}</td>
+                            <td>{{ row[9] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    <nav aria-label="Page navigation" class="mx-auto" style="width: 200px">
+                        <ul class="pagination">
+                        {% if page > 1 %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page - 1 }}" aria-label="Anterior">
+                                <span class="sr-only">Anterior</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% for i in range(1, num_pages+1) %}
+                        <li class="page-item{% if page == i %} active{% endif %}">
+                            <a class="page-link" href="?page={{ i }}">{{ i }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                        {% if page < num_pages %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page + 1 }}" aria-label="Siguiente">
+                                <span class="sr-only">Siguiente</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col p-2 rounded border border-dark text-center">
+                <h4 class="text-center">Editar</h4>
+                <form action="/eliminar_transaccion" method="POST">
+                    <label for="id"> ID a Eliminar: </label><br>
+                    <input type="number" name="id" required class="rounded border border-dark">
+                    <br>
+                    <input type="submit" value="Eliminar" class="btn btn-dark m-1">
+                </form>
+            </div>
+    
+            
+        </div>
+
+        
+       
+       
+
+        
     </div>
 </body>
 </html>  

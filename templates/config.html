@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Contabilidad Personal</title>
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <div class="container row">
+            <div class="col-10">
+                <a class="navbar-brand" href="/">
+                    <img src="/static/img/logo.png" width="340" alt="logo" style="margin-top: -60px; margin-bottom: -50px; margin-left: 30px;">
+                </a>
+            </div>
+            <div class="col-2">
+                <h1 style="text-align: right; padding-left: 10px;">Configuración</h1>
+            </div>
+        </div>
+        <div class="row" style="width: 100%;">
+            <div class="button-container">
+                <button class="btn btn-dark m-1 p-3" onclick="location.href='/'">Inicio</button>
+                <button class="btn btn-dark m-1 p-3" onclick="location.href='/transacciones'">Transacciones</button>
+                <button class="btn btn-dark m-1 p-3" onclick="location.href='/cuentas'">Cuentas</button>
+                <button class="btn btn-dark m-1 p-3" onclick="location.href='/informes'">Informes</button>
+                <button class="btn btn-dark m-1 p-3" onclick="location.href='/config'">Configuración</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container rounded border border-dark">
+
+        <div class="container rounded border border-dark text-center m-2 row">
+            <form action="/ingresar_datos" method="POST">
+                <div class="row">
+                    <div class="col">
+                        <label for="id">ID:</label><br>
+                        <input type="number" name="id" class="rounded border border-dark" required>
+                        <br>
+                        <label for="nombre">Nombre:</label><br>
+                        <input type="text" name="nombre" class="rounded border border-dark" required>
+                        <br>
+                        <label for="apellido">Apellido:</label><br>
+                        <input type="text" name="apellido" class="rounded border border-dark" required>
+        
+                    </div>
+    
+                    <div class="col">
+                        <label for="email">Email:</label><br>
+                        <input type="text" name="email" class="rounded border border-dark">
+                        <br>
+                        <label for="contrasena">Contraseña:</label><br>
+                        <input type="text" name="contrasena" class="rounded border border-dark" required>
+    
+                    </div>
+
+                </div>
+                
+                
+                <input type="submit" value="Registrar" class="p-1 btn btn-dark">
+            </form> 
+            <div class="container text-center row">
+                <h4 class="text-center">Usuarios</h4>
+                <table class="table table-hover mx-auto">
+                    <tr class="table-dark">
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">E-Mail</th>
+                    <th scope="col">Contraseña</th>
+                    </tr>
+                    {% for row in data_usuarios %}
+                    <tr>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="row" style="text-align: right; padding-left: 10px;">
+                <form action="/eliminar" method="POST">
+                    ID de Usuario: 
+                    <input type="number" name="id" class="rounded border border-dark" required>
+                    <br>
+                    <input type="submit" value="Eliminar" class="p-1 m-2 btn btn-dark">
+                </form>
+            </div>  
+        </div>
+
+        
+
+        <div class="container rounded border border-dark text-center m-2 row">
+            <form action="/ingresar_proveedor" method="POST">
+                <label for="proveedor">Nombre:</label><br>
+                <input type="text" id="proveedor" name="proveedor" class="rounded border border-dark">
+                <br>
+                <label for="proveedor_descripcion">Descripción:</label><br>
+                <input type="text" id="proveedor_descripcion" name="proveedor_descripcion" class="rounded border border-dark">
+                <br>
+                <input type="submit" value="Guardar" class="p-1 btn btn-dark">
+            </form>   
+            <h4 class="ext-center">Proveedores</h4>
+            <div class="container text-center row">
+                <table class="table table-hover mx-auto">
+                    <tr class="table-dark">
+                        <th scope="col">ID</th>
+                        <th scope="col">Proveedor</th>
+                        <th scope="col">Descripcion</th>
+                    </tr>
+                    {% for row in data_proveedores %}
+                    <tr>
+                        <td>{{ row[0] }}</td>
+                        <td>{{ row[1] }}</td>
+                        <td>{{ row[2] }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+    
+
+</body>
+</html>
